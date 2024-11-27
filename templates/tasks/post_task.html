@@ -1,0 +1,47 @@
+{% extends "index.html" %}
+{% load static %}
+{% block index %}
+<div>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'tasks:post_task' %}">Django htmx</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-7">
+      {% if messages %}
+      {% for message in messages %}
+      <div class=" mt-4 alert {{message.tags}} text-center mt-3">{{message}}</div>
+      {% endfor %}
+      {% endif %}
+      <form hx-post="{% url 'tasks:post_task' %}" hx-swap="outerHTML" hx-target="body">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="title" class='form-label'>Evènement</label>
+          <input type="text" class='form-control' name='title'>
+        </div>
+        <div class="mb-3">
+          <label for="category" class='form-label'>Category</label>
+          <select name="category" id="category" class='form-select'>
+            {% for item in categories %}
+            <option value="{{item.id}}">{{item.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <button type='submit' class='btn btn-primary'>Enregistrer</button>
+      </form>
+    </div>
+    <div class="col-md-5" hx-get="{% url 'tasks:get_tasks' %}" hx-trigger="load" hx-target="this"></div>
+  </div>
+</div>
+{% endblock index %}

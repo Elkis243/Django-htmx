@@ -1,0 +1,9 @@
+{% load static %}
+{% for item in tasks %}
+<div class="container d-flex justify-content-between shadow-sm mb-4">
+    <div class="container">
+        <p class='bg-primary p-2 d-inline rounded text-bg-primary mb-3 badge-p'>{{item.category}}</p>
+        <p class='mt-3 fw-semibold'>Evènement : {{item.title}}</p>
+    </div>
+</div>
+{% endfor %}
